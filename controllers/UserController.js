@@ -15,14 +15,17 @@ router.post("/user/create/confirm", (req, res) => {
   const salt = bcrypt.genSaltSync(10);
   const hash = bcrypt.hashSync(password, salt);
   const user = new User(username, hash, []);
-  fs.mkdirSync("./data/user_list/" + username);
-  fs.writeFile(
-    "./data/user_list/" + username + "/data",
-    JSON.stringify(user),
-    () => {
-      res.redirect("/");
-    }
-  );
+  if (!fs.existsSync("./data/user_list/" + username + "/data")) {
+    fs.writeFile(
+      "./data/user_list/" + username + "/data",
+      JSON.stringify(user),
+      () => {
+        res.redirect("/");
+      }
+    );
+  } else {
+    res.redirect("/user/create");
+  }
 });
 
 router.get("/user/login", (req, res) => {
