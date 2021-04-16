@@ -1,0 +1,77 @@
+<%- include ('../partials/header.ejs') %> <%- include ('../partials/navbar.ejs')
+%>
+<body>
+  <div class="container">
+    <hr />
+    <div class="card mt-4">
+      <div class="card-header"><h2>Criação de Questionário</h2></div>
+      <div class="card-body">
+        <form action="/quizz/create/confirm" method="POST" id="form">
+          <input
+            class="form-control mb-4"
+            type="text"
+            name="title"
+            placeholder="Título"
+          />
+          <hr />
+          <input
+            class="form-control mb-4"
+            type="text"
+            name="questions[]"
+            placeholder="Questão 1"
+          />
+          <div id="buttons-container">
+            <div class="row mb-2">
+              <div class="col-sm-6">
+                <button
+                  type="button"
+                  class="btn btn-primary btn-block"
+                  onclick="addLine()"
+                >
+                  Adicionar linha
+                </button>
+              </div>
+              <div class="col-sm-6">
+                <button
+                  type="button"
+                  class="btn btn-danger btn-block"
+                  onclick="removeLine()"
+                >
+                  Remover linha
+                </button>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-success btn-block">
+              Criar questionário
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+<script>
+  function addLine() {
+    var element = document.getElementById("form");
+    var input = document.createElement("input");
+    var n = element.childElementCount - 2;
+    input.name = "questions[]";
+    input.id = "q" + n;
+    input.type = "text";
+    input.className = "form-control mb-4";
+    input.placeholder = "Questão " + n;
+    var buttons = document.getElementById("buttons-container");
+    element.appendChild(input);
+    element.removeChild(buttons);
+    element.appendChild(buttons);
+  }
+  function removeLine() {
+    var element = document.getElementById("form");
+    var n = element.childElementCount - 3;
+    if (n >= 1) {
+      var input = document.getElementById("q" + n);
+      element.removeChild(input);
+    }
+  }
+</script>
+<%- include ('../partials/footer.ejs') %>

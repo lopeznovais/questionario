@@ -1,0 +1,55 @@
+<%- include ('../partials/header.ejs') %> <%- include ('../partials/navbar.ejs')
+%>
+<body onload="getLocation()">
+  <div class="container">
+    <hr />
+    <div class="card mt-4">
+      <div class="card-header"><h2><%= title %></h2></div>
+      <div class="card-body">
+        <form action="/quizz/<%= id %>/answer" method="POST" id="form">
+          <input id="lat" name="lat" type="hidden" />
+          <input id="long" name="long" type="hidden" />
+          <% questions.forEach((question, i) => { %>
+          <label><%= question %> </label>
+          <% if(answers.length == 0) { %>
+          <textarea
+            class="form-control mb-4"
+            name="answers[]"
+            type="text"
+            placeholder="Resposta <%= i+1 %>"
+          ></textarea>
+          <% }else{ %>
+          <label class="form-control mb-4"><%=answers[i] %> </label>
+          <% } %> <% }) %> <% if(user) { %> <% if(answers.length == 0){ %>
+          <button type="submit" class="btn btn-success btn-block">
+            Enviar resposta
+          </button>
+          <% }else{ %>
+          <h4 class="text-center">Questionário já respondido</h4>
+          <% } %> <%} else { %>
+          <h4 class="text-center">
+            É preciso estar logado para enviar uma resposta
+          </h4>
+          <% } %>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+<script>
+  function getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(saveLocation);
+    } else {
+      console.log("Geolocation is not supported by this browser.");
+    }
+  }
+
+  function saveLocation(position) {
+    var lat = document.getElementById("lat");
+    var long = document.getElementById("long");
+    lat.setAttribute("value", position.coords.latitude);
+    long.setAttribute("value", position.coords.longitude);
+  }
+</script>
+<%- include ('../partials/footer.ejs') %>

@@ -1,0 +1,28 @@
+<%- include ('partials/header.ejs') %> <%- include ('partials/navbar.ejs') %>
+<body>
+  <div class="container">
+    <br />
+    <div class="jumbotron">
+      <h1 class="display-4">Bem-vindo</h1>
+      <p class="lead">Sistema de questionário</p>
+      <hr class="my-4" />
+      <p>
+        Este sistema foi feito utilizando diversas bibliotecas do Node.js com
+        Express para as rotas e EJS em conjunto com bootstrap para as views.
+      </p>
+    </div>
+    <hr />
+    <% quizzes.forEach((quizz) => { %>
+    <div class="card">
+      <div class="card-header">
+        <h2><%= quizz.title %></h2>
+      </div>
+      <div class="card-body">
+        <a href="/quizz/<%= quizz.id %> " class="btn btn-success">Abrir</a>
+      </div>
+    </div>
+    <br />
+    <% }) %>
+  </div>
+</body>
+<%- include ('partials/footer.ejs') %>
